@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Home, Upload, List, CheckCircle, ArrowRightLeft } from 'lucide-react';
+import { Menu, X, Home, Upload, List, CheckCircle, ArrowRightLeft, User } from 'lucide-react';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -33,6 +33,7 @@ const Navbar = () => {
     { name: 'Assets', path: '/assets', icon: <List size={18} /> },
     { name: 'Verify', path: '/verify', icon: <CheckCircle size={18} /> },
     { name: 'Transfer', path: '/transfer', icon: <ArrowRightLeft size={18} /> },
+    { name: 'Profile', path: '/profile', icon: <User size={18} /> },
   ];
 
   const isActive = (path: string) => {

@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Search, Shield, Filter } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import AssetCard, { AssetType } from '@/components/AssetCard';
@@ -56,6 +56,7 @@ const mockAssets = [
 const AssetsList = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [filterType, setFilterType] = useState<AssetType | 'all'>('all');
+  const [visibleAssets, setVisibleAssets] = useState<string[]>([]);
 
   // Filter assets based on search query and type filter
   const filteredAssets = mockAssets.filter(asset => {
@@ -65,6 +66,22 @@ const AssetsList = () => {
     
     return matchesSearch && matchesFilter;
   });
+
+  // Animation effect for staggered card appearance
+  useEffect(() => {
+    setVisibleAssets([]);
+    
+    if (filteredAssets.length > 0) {
+      const showWithDelay = async () => {
+        for (let i = 0; i < filteredAssets.length; i++) {
+          await new Promise(resolve => setTimeout(resolve, 100));
+          setVisibleAssets(prev => [...prev, filteredAssets[i].id]);
+        }
+      };
+      
+      showWithDelay();
+    }
+  }, [filteredAssets]);
 
   return (
     <div className="min-h-screen bg-crypto-darker">
@@ -116,14 +133,22 @@ const AssetsList = () => {
         {filteredAssets.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredAssets.map((asset) => (
-              <AssetCard
+              <div 
                 key={asset.id}
-                type={asset.type}
-                name={asset.name}
-                hash={asset.hash}
-                timestamp={asset.timestamp}
-                previewUrl={asset.previewUrl}
-              />
+                className={`transform transition-all duration-500 ease-out ${
+                  visibleAssets.includes(asset.id) 
+                    ? 'opacity-100 translate-y-0 scale-100' 
+                    : 'opacity-0 translate-y-8 scale-95'
+                }`}
+              >
+                <AssetCard
+                  type={asset.type}
+                  name={asset.name}
+                  hash={asset.hash}
+                  timestamp={asset.timestamp}
+                  previewUrl={asset.previewUrl}
+                />
+              </div>
             ))}
           </div>
         ) : (

@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Lock, Shield, FileCheck, ChevronRight } from 'lucide-react';
 import Navbar from '@/components/Navbar';
+import BlockchainVisualization from '@/components/BlockchainVisualization';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -33,12 +34,8 @@ const Home = () => {
   useEffect(() => {
     const handleScroll = () => {
       const scrollY = window.scrollY;
-      const heroImage = document.getElementById('hero-image');
       const heroContent = document.getElementById('hero-content');
       
-      if (heroImage) {
-        heroImage.style.transform = `translateY(${scrollY * 0.2}px)`;
-      }
       if (heroContent) {
         heroContent.style.transform = `translateY(${scrollY * 0.1}px)`;
       }
@@ -77,15 +74,13 @@ const Home = () => {
               </div>
             </div>
             
-            {/* Hero Image */}
-            <div id="hero-image" className="relative h-full flex justify-center">
+            {/* 3D Blockchain Visualization */}
+            <div className="relative h-[500px] flex justify-center">
               <div className="relative w-full max-w-md mx-auto">
                 <div className="absolute inset-0 bg-crypto-purple/30 rounded-2xl blur-3xl opacity-20 animate-pulse"></div>
-                <img 
-                  src="https://images.unsplash.com/photo-1639322537228-f710d846310a?q=80&w=1000" 
-                  alt="Digital Copyright Protection" 
-                  className="rounded-xl object-cover w-full h-full glass-card p-2"
-                />
+                <div className="glass-card p-4 rounded-xl w-full h-full">
+                  <BlockchainVisualization />
+                </div>
                 <div className="absolute -bottom-4 -right-4 bg-crypto-dark glass-card p-4 rounded-lg text-sm">
                   <div className="flex items-center">
                     <span className="h-3 w-3 bg-green-400 rounded-full mr-2 animate-pulse"></span>
